@@ -7,21 +7,30 @@ using System.Security.Cryptography;
 using System.Windows.Forms;
 
 
-namespace WinFormsApp1
+namespace Client
 {
     internal class Encryptor
     {
-        public (byte[] IV, byte[] cipherText) Encrypt(byte[] key, string plainText)
+        private static ulong nonce_right = 1;
+        private static ulong nonce_left = 0;
+
+        public static void IncreaseNonce()
         {
-            return Encrypt(key, Encoding.ASCII.GetBytes(plainText));
+            nonce_right++;
+
+            if (nonce_right == 0)
+            {
+                nonce_left++;
+            }
         }
 
-        public (byte[] IV, byte[] cipherText) Encrypt(byte[] key, byte[] plainText)
+        public byte[] Encrypt(byte[] key, string plainText)
         {
-            byte[] IV = new byte[16];
-            Random rnd = new Random();
+            byte[] IV = BitConverter.GetBytes(nonce_left)
+                .Concat(BitConverter.GetBytes(nonce_right))
+                .ToArray();
 
-            rnd.NextBytes(IV);
+            IncreaseNonce();
 
             if (plainText == null || plainText.Length <= 0)
                 throw new ArgumentNullException("plainText");
@@ -47,15 +56,16 @@ namespace WinFormsApp1
                     {
                         using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
                         {
-                            //Write all data to the stream.
                             swEncrypt.Write(plainText);
                         }
                         encrypted = msEncrypt.ToArray();
                     }
                 }
+
+
             }
 
-            return (IV, encrypted);
+            return IV.Concat(encrypted).ToArray();
         }
 
         public string Decrypt(byte[] ivCtextPair, byte[] key)
@@ -77,7 +87,7 @@ namespace WinFormsApp1
             if (IV == null || IV.Length <= 0)
                 throw new ArgumentNullException("IV");
 
-            string plaintext = null;
+            string plaintext = "null";
 
 
             using (Aes aesAlg = Aes.Create())

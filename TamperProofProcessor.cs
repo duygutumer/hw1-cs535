@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 
-namespace WinFormsApp1
+namespace Client
 {
     internal class PasswordData
     {
@@ -43,6 +43,7 @@ namespace WinFormsApp1
     {
         private readonly PasswordData _passwordData;
         private int _sessionNo;
+        private int _sessionCount;
 
         private const int HashSize = 256 / 8;
         private const int KeySize = 128 / 8;
@@ -58,6 +59,7 @@ namespace WinFormsApp1
             _passwordData.GeneratePasswordChains(password1, password2, sessionCount);
 
             _sessionNo = 1;
+            _sessionCount = sessionCount;
         }
 
         public static byte[] Xor(byte[] hash1, byte[] hash2)
@@ -72,6 +74,11 @@ namespace WinFormsApp1
 
         public byte[] GetNewSessionKey()
         {
+            if (_sessionNo >= _sessionCount)
+            {
+                _sessionNo = _sessionCount;
+            }
+
             (byte[] hash1, byte[] hash2) = _passwordData.GetSessionHashes(_sessionNo);
             _sessionNo++;
 

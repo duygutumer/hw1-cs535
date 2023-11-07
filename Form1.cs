@@ -1,18 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO;
-using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 
-namespace WinFormsApp1
+
+namespace Client
 {
     public partial class Form1 : Form
     {
@@ -23,22 +17,20 @@ namespace WinFormsApp1
         private Encryptor _encryptor;
         Socket clientSocket;
 
+        private string GetKeyBase64String()
+        {
+            return Convert.ToBase64String(_aesKey);
+        }
+
         public Form1()
         {
             InitializeComponent();
-            _tamperProofProcessor = new TamperProofProcessor();
+            _tamperProofProcessor = new TamperProofProcessor(100);
             _aesKey = _tamperProofProcessor.GetNewSessionKey();
             _encryptor = new Encryptor();
-        }
-
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-        private void button4_Click(object sender, EventArgs e)
-        {
-
+            textBox1.Enabled = false;
+            button1.Enabled = false;
+            textBox4.AppendText("Client initialized with key: " + GetKeyBase64String() + "\n");
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -55,6 +47,9 @@ namespace WinFormsApp1
                     clientSocket.Connect(IP, portNum);
                     textBox4.AppendText("Connected to the server!\n");
                     connected = true;
+                    textBox1.Enabled = true;
+                    button1.Enabled = true;
+                    connect_btn.Enabled = false;
                     Thread receiveThread = new Thread(Receive);
                     receiveThread.Start();
 
@@ -69,6 +64,20 @@ namespace WinFormsApp1
                 textBox4.AppendText("Check the port\n");
             }
         }
+
+        private byte[] RemoveNullBytes(byte[] bytes)
+        {
+            int idx = bytes.Length - 1;
+            while (bytes[idx] == 0)
+            {
+                --idx;
+            }
+
+            byte[] result = new byte[idx + 1];
+            Array.Copy(bytes, result, idx + 1);
+
+            return result;
+        }
         private void Receive()
         {
             while (connected)
@@ -80,25 +89,35 @@ namespace WinFormsApp1
 
                     string incomingMessage = Encoding.Default.GetString(buffer);
                     incomingMessage = incomingMessage.Substring(0, incomingMessage.IndexOf("\0"));
-                    if(incomingMessage == "Rekey")
+                    if (incomingMessage == "Rekey")
                     {
                         _aesKey = _tamperProofProcessor.GetNewSessionKey();
-                        string newKey = Convert.ToBase64String(_aesKey);
-                        textBox4.AppendText("Get new session key after server's request: " + newKey + "\n");
-                        
+                        textBox4.AppendText("Rekey initiated by Server. New key: " + GetKeyBase64String() + "\n");
                     }
                     else
                     {
-                        string message = _encryptor.Decrypt(Encoding.Default.GetBytes(incomingMessage), _aesKey);
-                        textBox4.AppendText("Server: " + message + "\n");
+                        textBox4.AppendText("Received Message.\n");
+                        byte[] encryptedMessageBytes = RemoveNullBytes(buffer);
+
+                        textBox4.AppendText("Nonce: " + Convert.ToBase64String(encryptedMessageBytes.Take(16).ToArray()) + "\n");
+                        textBox4.AppendText("Cipher text: " + Convert.ToBase64String(encryptedMessageBytes.Skip(16).ToArray()) + "\n");
+                        string message = _encryptor.Decrypt(encryptedMessageBytes, _aesKey);
+                        textBox4.AppendText("Decryption key: " + GetKeyBase64String() + "\n");
+                        textBox4.AppendText("Plain text: " + message + "\n");
+
+                        Encryptor.IncreaseNonce();
                     }
-                    
+
                 }
                 catch
                 {
                     if (!terminating)
                     {
                         textBox4.AppendText("The server has disconnected\n");
+                        connect_btn.Enabled = true;
+                        button2.Enabled = false;
+                        textBox1.Enabled = false;
+                        button1.Enabled = false;
                     }
 
                     clientSocket.Close();
@@ -122,13 +141,15 @@ namespace WinFormsApp1
 
             if (message != "" && message.Length <= 128)
             {
-                (byte[]IV, byte[]ctext) = _encryptor.Encrypt(_aesKey, message);
-                Byte[] combined = new byte[IV.Length + ctext.Length];
+                textBox4.AppendText("Sending...\n");
+                textBox4.AppendText("Plain text: " + message + "\n");
 
-                Array.Copy(IV, combined, IV.Length);
-                Array.Copy(ctext, 0, combined, IV.Length, ctext.Length);
+                var encryptedMessage = _encryptor.Encrypt(_aesKey, message);
+                textBox4.AppendText("Encryption key: " + GetKeyBase64String() + "\n");
+                textBox4.AppendText("Nonce: " + Convert.ToBase64String(encryptedMessage.Take(16).ToArray()) + "\n");
+                textBox4.AppendText("Cipher text: " + Convert.ToBase64String(encryptedMessage.Skip(16).ToArray()) + "\n");
 
-                clientSocket.Send(combined);
+                clientSocket.Send(encryptedMessage);
             }
         }
 
@@ -136,18 +157,11 @@ namespace WinFormsApp1
         {
             //rekey
             _aesKey = _tamperProofProcessor.GetNewSessionKey();
-            string newKey = Convert.ToBase64String(_aesKey);
-            textBox4.AppendText("New key is: " + newKey);
+            textBox4.AppendText("Rekey Initiated. New key: " + GetKeyBase64String() + "\n");
 
             string message = "Rekey";
-
-            if (message != "" && message.Length <= 64)
-            {
-                Byte[] buffer = new Byte[64];
-                buffer = Encoding.Default.GetBytes(message);
-
-                clientSocket.Send(buffer);
-            }
+            Byte[] buffer = Encoding.Default.GetBytes(message);
+            clientSocket.Send(buffer);
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿
-namespace WinFormsApp1
+namespace Client
 {
     partial class Form1
     {
@@ -29,152 +29,162 @@ namespace WinFormsApp1
         /// </summary>
         private void InitializeComponent()
         {
-            this.client = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.connect_btn = new System.Windows.Forms.Button();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.SuspendLayout();
+            client = new System.Windows.Forms.Label();
+            textBox1 = new System.Windows.Forms.TextBox();
+            button1 = new System.Windows.Forms.Button();
+            button2 = new System.Windows.Forms.Button();
+            label1 = new System.Windows.Forms.Label();
+            label2 = new System.Windows.Forms.Label();
+            textBox2 = new System.Windows.Forms.TextBox();
+            textBox3 = new System.Windows.Forms.TextBox();
+            label3 = new System.Windows.Forms.Label();
+            label4 = new System.Windows.Forms.Label();
+            connect_btn = new System.Windows.Forms.Button();
+            textBox4 = new System.Windows.Forms.RichTextBox();
+            SuspendLayout();
             // 
             // client
             // 
-            this.client.AutoSize = true;
-            this.client.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.client.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.client.Location = new System.Drawing.Point(35, 34);
-            this.client.Name = "client";
-            this.client.Size = new System.Drawing.Size(187, 81);
-            this.client.TabIndex = 0;
-            this.client.Text = "Client";
+            client.AutoSize = true;
+            client.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            client.ForeColor = System.Drawing.SystemColors.HotTrack;
+            client.Location = new System.Drawing.Point(16, 17);
+            client.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
+            client.Name = "client";
+            client.Size = new System.Drawing.Size(94, 41);
+            client.TabIndex = 0;
+            client.Text = "Client";
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(60, 628);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(879, 164);
-            this.textBox1.TabIndex = 1;
+            textBox1.Location = new System.Drawing.Point(28, 519);
+            textBox1.Margin = new System.Windows.Forms.Padding(1);
+            textBox1.Multiline = true;
+            textBox1.Name = "textBox1";
+            textBox1.Size = new System.Drawing.Size(611, 82);
+            textBox1.TabIndex = 1;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(794, 823);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(145, 54);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Send\r\n";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            button1.Location = new System.Drawing.Point(571, 613);
+            button1.Margin = new System.Windows.Forms.Padding(1);
+            button1.Name = "button1";
+            button1.Size = new System.Drawing.Size(68, 26);
+            button1.TabIndex = 2;
+            button1.Text = "Send\r\n";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // button2
             // 
-            this.button2.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.button2.Location = new System.Drawing.Point(773, 34);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(156, 70);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "Rekey\r\n";
-            this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            button2.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            button2.Location = new System.Drawing.Point(547, 82);
+            button2.Margin = new System.Windows.Forms.Padding(1);
+            button2.Name = "button2";
+            button2.Size = new System.Drawing.Size(73, 34);
+            button2.TabIndex = 3;
+            button2.Text = "Rekey\r\n";
+            button2.UseVisualStyleBackColor = false;
+            button2.Click += button2_Click;
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(35, 206);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(0, 41);
-            this.label1.TabIndex = 4;
+            label1.AutoSize = true;
+            label1.Location = new System.Drawing.Point(16, 100);
+            label1.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(0, 20);
+            label1.TabIndex = 4;
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(60, 571);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(143, 41);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "Message:";
+            label2.AutoSize = true;
+            label2.Location = new System.Drawing.Point(28, 492);
+            label2.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
+            label2.Name = "label2";
+            label2.Size = new System.Drawing.Size(70, 20);
+            label2.TabIndex = 5;
+            label2.Text = "Message:";
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(143, 173);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(239, 47);
-            this.textBox2.TabIndex = 6;
-            this.textBox2.Text = "127.0.0.1";
+            textBox2.Location = new System.Drawing.Point(67, 84);
+            textBox2.Margin = new System.Windows.Forms.Padding(1);
+            textBox2.Name = "textBox2";
+            textBox2.Size = new System.Drawing.Size(115, 27);
+            textBox2.TabIndex = 6;
+            textBox2.Text = "127.0.0.1";
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(507, 176);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(239, 47);
-            this.textBox3.TabIndex = 7;
-            this.textBox3.Text = "8090";
+            textBox3.Location = new System.Drawing.Point(239, 86);
+            textBox3.Margin = new System.Windows.Forms.Padding(1);
+            textBox3.Name = "textBox3";
+            textBox3.Size = new System.Drawing.Size(115, 27);
+            textBox3.TabIndex = 7;
+            textBox3.Text = "8090";
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(414, 176);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(79, 41);
-            this.label3.TabIndex = 8;
-            this.label3.Text = "Port:";
+            label3.AutoSize = true;
+            label3.Location = new System.Drawing.Point(195, 86);
+            label3.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
+            label3.Name = "label3";
+            label3.Size = new System.Drawing.Size(38, 20);
+            label3.TabIndex = 8;
+            label3.Text = "Port:";
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(50, 179);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(87, 41);
-            this.label4.TabIndex = 9;
-            this.label4.Text = "Host:\r\n";
-            this.label4.Click += new System.EventHandler(this.label4_Click);
+            label4.AutoSize = true;
+            label4.Location = new System.Drawing.Point(24, 87);
+            label4.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
+            label4.Name = "label4";
+            label4.Size = new System.Drawing.Size(43, 20);
+            label4.TabIndex = 9;
+            label4.Text = "Host:\r\n";
             // 
             // connect_btn
             // 
-            this.connect_btn.Location = new System.Drawing.Point(784, 172);
-            this.connect_btn.Name = "connect_btn";
-            this.connect_btn.Size = new System.Drawing.Size(145, 54);
-            this.connect_btn.TabIndex = 10;
-            this.connect_btn.Text = "Connect\r\n\r\n";
-            this.connect_btn.UseVisualStyleBackColor = true;
-            this.connect_btn.Click += new System.EventHandler(this.button3_Click);
+            connect_btn.Location = new System.Drawing.Point(369, 84);
+            connect_btn.Margin = new System.Windows.Forms.Padding(1);
+            connect_btn.Name = "connect_btn";
+            connect_btn.Size = new System.Drawing.Size(68, 26);
+            connect_btn.TabIndex = 10;
+            connect_btn.Text = "Connect\r\n\r\n";
+            connect_btn.UseVisualStyleBackColor = true;
+            connect_btn.Click += button3_Click;
             // 
             // textBox4
             // 
-            this.textBox4.Location = new System.Drawing.Point(60, 281);
-            this.textBox4.Multiline = true;
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(869, 233);
-            this.textBox4.TabIndex = 11;
+            textBox4.Location = new System.Drawing.Point(28, 146);
+            textBox4.Name = "textBox4";
+            textBox4.Size = new System.Drawing.Size(611, 322);
+            textBox4.TabIndex = 11;
+            textBox4.Text = "";
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(17F, 41F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1009, 913);
-            this.Controls.Add(this.textBox4);
-            this.Controls.Add(this.connect_btn);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.client);
-            this.Name = "Form1";
-            this.Text = "te";
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(701, 690);
+            Controls.Add(textBox4);
+            Controls.Add(connect_btn);
+            Controls.Add(label4);
+            Controls.Add(label3);
+            Controls.Add(textBox3);
+            Controls.Add(textBox2);
+            Controls.Add(label2);
+            Controls.Add(label1);
+            Controls.Add(button2);
+            Controls.Add(button1);
+            Controls.Add(textBox1);
+            Controls.Add(client);
+            Margin = new System.Windows.Forms.Padding(1);
+            Name = "Form1";
+            Text = "te";
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -190,7 +200,7 @@ namespace WinFormsApp1
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button connect_btn;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.RichTextBox textBox4;
     }
 }
 
